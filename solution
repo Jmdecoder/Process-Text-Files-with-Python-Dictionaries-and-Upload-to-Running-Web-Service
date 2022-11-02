@@ -1,0 +1,27 @@
+	
+#! /usr/bin/env python3
+import os
+import requests
+# Get the list of all files and directories
+path="/data/feedback"
+# Traverse through each file
+os.chdir(path)
+for file in os.listdir(path):
+    #an empty dictionary
+    keys = ["title", "name", "date", "review"]
+    n = 0
+    dictionary = {}
+    with open(file) as files:
+          for line in files:
+                 print(line)
+                 (key, value) = (keys[n], line.strip('\n'))
+                 dictionary[key] = value
+                 n += 1
+
+    response = requests.post("http://34.171.97.148/feedback", json=dictionary)
+    print("The  post details")
+    print( response.request.body)
+    response = requests.get("http://34.171.97.148/feedback")
+    response.raise_for_status()
+    print(response.status_code)
+
